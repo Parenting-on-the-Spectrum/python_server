@@ -1,0 +1,2 @@
+FastAPI==0.1.0
+psycopg2==2.9.7
