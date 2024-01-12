@@ -37,9 +37,25 @@ async def read_leads():
 
         return l, 200
 
-#tipstricks
+#tipstricks / table name is tips_tricks
 @app.get("/tipstricks")
 def tips_tricks():
+    cur = conn.cursor()
+    try:
+         cur.execute(
+				""" SELECT * FROM tips_tricks;"""
+        )
+
+    except Exception as error:
+        conn.commit()
+        cur.close()
+        return "Internal server error", 500
+
+    tt = cur.fetchall()
+    conn.commit()
+    cur.close()
+
+    return tt, 200
     return 'Tips and tricks route'
 #resources
 @app.get("/resources")
