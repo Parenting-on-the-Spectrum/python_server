@@ -56,11 +56,27 @@ def tips_tricks():
     cur.close()
 
     return tt, 200
-    return 'Tips and tricks route'
+
 #resources
 @app.get("/resources")
 def read_recs():
-    return 'Resources Route'
+    cur = conn.cursor()
+    try:
+        cur.execute(
+				""" SELECT * FROM resources;"""
+        )
+
+    except Exception as error:
+        conn.commit()
+        cur.close()
+        return "Internal server error", 500
+
+    rec = cur.fetchall()
+    conn.commit()
+    cur.close()
+
+    return rec, 200
+
 #kideos
 @app.get("/kideos")
 def read_kideos():
