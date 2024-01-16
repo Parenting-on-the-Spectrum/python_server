@@ -81,10 +81,12 @@ def read_recs():
 @app.get("/kideos")
 def read_kideos():
     return 'Kid videos route'
+
 #careVids
 @app.get("/careVids")
 def read_cares():
     return 'Caregiver videos route'
+
 #loader.io route
 @app.get("/f{process.env.loader}")
 def read_loader():
