@@ -1,8 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 # start up server by running the following command:  python3 -m uvicorn main:app --reload
 import psycopg2
 from dotenv import load_dotenv
 import os
+import httpx
 
 load_dotenv()
 app = FastAPI()
@@ -79,8 +80,27 @@ def read_recs():
 
 #kideos
 @app.get("/kideos")
-def read_kideos():
-    return 'Kid videos route'
+async def read_kideos():
+    params = {
+      'q': 'ms. rachel',
+      'part': 'snippet',
+      'maxResults': '17',
+      'key': os.environ.get("YT_KEY")
+    }
+    url = f"https://www.googleapis.com/youtube/v3/search"
+    async with httpx.AsyncClient() as client:
+        # Make the API request
+        response = await client.get(url, params=params)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse and return the video information
+            video_info = response.json()
+            return video_info
+        else:
+            # Raise an HTTPException with the error details
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+
 
 #careVids
 @app.get("/careVids")
@@ -93,9 +113,3 @@ def read_loader():
     return {"message": "Hello, FastAPI!"}
 
 #usage - LEAVE BLANKS FOR NOW
-# async def get_tipstricks():
-#     try:
-#         tipstricks = await tipstricks_collection.find({}).to_list(None)
-#         return tipstricks
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
