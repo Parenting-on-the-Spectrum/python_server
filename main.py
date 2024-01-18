@@ -80,7 +80,7 @@ def read_recs():
 
 #kideos
 @app.get("/kideos")
-async def read_kideos():
+async def kid_vids():
     params = {
       'q': 'ms. rachel',
       'part': 'snippet',
@@ -104,8 +104,27 @@ async def read_kideos():
 
 #careVids
 @app.get("/careVids")
-def read_cares():
-    return 'Caregiver videos route'
+async def care_vids():
+    params = {
+      'q': 'ABA for parents',
+      'part': 'snippet',
+      'maxResults': '17',
+      'key': os.environ.get("YT_KEY")
+    }
+    url = f"https://www.googleapis.com/youtube/v3/search"
+    async with httpx.AsyncClient() as client:
+        # Make the API request
+        response = await client.get(url, params=params)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse and return the video information
+            video_info = response.json()
+            return video_info
+        else:
+            # Raise an HTTPException with the error details
+            raise HTTPException(status_code=response.status_code, detail=response.text)
+
 
 #loader.io route
 @app.get("/f{process.env.loader}")
