@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 # start up server by running the following command:  python3 -m uvicorn main:app --reload
+from helpers import leader_format
 import psycopg2
 from dotenv import load_dotenv
 import os
@@ -35,8 +36,9 @@ async def read_leads():
         l = cur.fetchall()
         conn.commit()
         cur.close()
+        # print(leader_format(l))
 
-        return l, 200
+        return leader_format(l)
 
 #tipstricks / table name is tips_tricks
 @app.get("/tipstricks")
