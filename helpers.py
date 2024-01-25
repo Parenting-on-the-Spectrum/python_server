@@ -23,3 +23,9 @@ def leader_format(input_data):
         result.append(formatted_entry)
 
     return result
+
+def tip_format(input_data):
+   return None
+
+def resource_format(input_data):
+   return None
