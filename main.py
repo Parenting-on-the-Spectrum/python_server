@@ -36,7 +36,6 @@ async def read_leads():
         l = cur.fetchall()
         conn.commit()
         cur.close()
-        # print(leader_format(l))
 
         return leader_format(l)
 
