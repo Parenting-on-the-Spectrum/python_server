@@ -1,6 +1,5 @@
 # Format the leaders data to match the existing front end
 def leader_format(input_data):
-    print(input_data[0])
     result = []
     for entry in input_data:
         for e in entry:
