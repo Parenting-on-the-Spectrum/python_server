@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Response
 # start up server by running the following command:  python3 -m uvicorn main:app --reload
-from helpers import leader_format
+from helpers import leader_format, tip_format
 import psycopg2
 from dotenv import load_dotenv
 import os
@@ -58,7 +58,7 @@ def tips_tricks():
     conn.commit()
     cur.close()
 
-    return tt, 200
+    return tip_format(tt)
 
 #resources
 @app.get("/resources")
