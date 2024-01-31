@@ -24,7 +24,17 @@ def leader_format(input_data):
     return result
 
 def tip_format(input_data):
-   return None
+    transformed_data = []
+
+    for item in input_data:
+        transformed_item = {
+            "_id": str(item[0]),
+            "title": item[1],
+            "info": item[2]
+        }
+        transformed_data.append(transformed_item)
+
+    return transformed_data
 
 def resource_format(input_data):
    return None
